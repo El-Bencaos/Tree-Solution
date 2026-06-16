@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Client Reviews – Tree Solutions Ltd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--forest:#1a3a1a;--leaf:#4a7c3f;--sage:#6ea85a;--lime:#a8cc6a;--cream:#f7f4ee;--bark:#2d2417;--white:#fff;--text:#1e1e1e;--muted:#5a5a5a;}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:72px;background:rgba(26,58,26,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.08);}
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo{width:38px;height:38px;}
+    .nav-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;}
+    .nav-name span{color:var(--lime);}
+    .nav-links{display:flex;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:.88rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;padding:.4rem .9rem;border-radius:6px;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);}
+    .nav-cta{background:var(--sage);color:#fff;padding:.55rem 1.4rem;border-radius:30px;font-weight:600;font-size:.88rem;text-decoration:none;}
+    .nav-cta:hover{background:var(--lime);color:var(--forest);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;}
+    .mobile-menu{display:none;position:fixed;inset:72px 0 0 0;background:var(--forest);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{color:#fff;text-decoration:none;font-size:1.3rem;font-family:'Playfair Display',serif;}
+    .page-hero{background:linear-gradient(135deg,var(--forest) 0%,#264d26 100%);padding:140px 5vw 80px;text-align:center;}
+    .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);margin-bottom:.75rem;display:block;}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:#fff;margin-bottom:1rem;}
+    .page-hero p{color:rgba(255,255,255,.7);font-size:1.05rem;max-width:520px;margin:0 auto;line-height:1.75;}
+    .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.8rem;}
+    .breadcrumb a{color:rgba(255,255,255,.5);text-decoration:none;}
+    .breadcrumb span{color:rgba(255,255,255,.3);}
+    .section-label{font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:.6rem;}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;color:var(--forest);margin-bottom:1rem;line-height:1.2;}
+
+    .rating-bar{background:var(--forest);padding:3rem 5vw;}
+    .rating-inner{display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap;}
+    .rating-big{text-align:center;}
+    .rating-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;color:var(--lime);line-height:1;}
+    .rating-stars{font-size:1.5rem;color:#f0b429;letter-spacing:.1rem;}
+    .rating-sub{color:rgba(255,255,255,.5);font-size:.82rem;margin-top:.4rem;}
+    .rating-breakdown{display:flex;flex-direction:column;gap:.5rem;}
+    .rating-row{display:flex;align-items:center;gap:.8rem;}
+    .rating-row span{color:rgba(255,255,255,.6);font-size:.82rem;min-width:30px;}
+    .rating-bar-outer{width:180px;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden;}
+    .rating-bar-inner{height:100%;background:var(--lime);border-radius:4px;}
+    .rating-count{color:rgba(255,255,255,.4);font-size:.78rem;min-width:30px;}
+
+    .reviews{padding:80px 5vw;background:var(--cream);}
+    .reviews-header{text-align:center;margin-bottom:3.5rem;}
+    .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;}
+    .review-card{background:#fff;border-radius:20px;padding:2.2rem;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:transform .25s;}
+    .review-card:hover{transform:translateY(-4px);}
+    .review-stars{color:#f0b429;font-size:1.05rem;letter-spacing:.08rem;margin-bottom:1rem;}
+    .review-service{display:inline-block;background:var(--cream);color:var(--sage);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .75rem;border-radius:20px;margin-bottom:.9rem;}
+    .review-text{font-size:.95rem;line-height:1.78;color:var(--text);font-style:italic;margin-bottom:1.4rem;}
+    .review-author{display:flex;align-items:center;gap:.8rem;}
+    .review-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--forest),var(--leaf));color:#fff;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;flex-shrink:0;}
+    .review-name{font-weight:600;font-size:.9rem;color:var(--forest);}
+    .review-loc{font-size:.78rem;color:var(--muted);}
+
+    .featured{padding:80px 5vw;background:#fff;}
+    .featured-inner{background:linear-gradient(135deg,var(--forest),var(--leaf));border-radius:28px;padding:4rem;text-align:center;}
+    .featured-quote{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#fff;line-height:1.55;max-width:720px;margin:0 auto 2rem;font-style:italic;}
+    .featured-author-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--lime);}
+    .featured-author-role{font-size:.85rem;color:rgba(255,255,255,.6);margin-top:.25rem;}
+    .featured-stars{font-size:1.5rem;color:#f0b429;margin-bottom:2rem;}
+
+    .cta-strip{background:linear-gradient(135deg,var(--leaf) 0%,var(--forest) 100%);padding:80px 5vw;text-align:center;}
+    .cta-strip h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:#fff;margin-bottom:1rem;}
+    .cta-strip p{color:rgba(255,255,255,.75);margin-bottom:2rem;max-width:460px;margin-left:auto;margin-right:auto;}
+    .btn-white{background:#fff;color:var(--forest);padding:.85rem 2rem;border-radius:40px;font-weight:700;text-decoration:none;display:inline-block;}
+    .btn-white:hover{background:var(--lime);}
+    footer{background:var(--bark);padding:50px 5vw 24px;}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
+    .footer-brand p{color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;max-width:240px;margin-top:.6rem;}
+    .footer-col h4{font-family:'Playfair Display',serif;color:var(--lime);font-size:.95rem;margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+    .footer-col ul li a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.87rem;}
+    .footer-col ul li a:hover{color:var(--lime);}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .footer-bottom p{color:rgba(255,255,255,.3);font-size:.8rem;}
+    .footer-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+    .footer-name span{color:var(--lime);}
+    @media(max-width:900px){.nav-links,.nav-cta{display:none;}.hamburger{display:flex;}.rating-inner{gap:2rem;}.footer-top{grid-template-columns:1fr 1fr;}}
+    @media(max-width:560px){.footer-top{grid-template-columns:1fr;}.featured-inner{padding:2.5rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-logo" viewBox="0 0 80 80" fill="none">
+      <path d="M40 70 Q40 55 40 45" stroke="#a8cc6a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M40 45 Q25 40 18 28 Q30 28 40 38 Q50 28 62 28 Q55 40 40 45Z" fill="#4a7c3f"/>
+      <ellipse cx="27" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(-15 27 22)"/>
+      <ellipse cx="53" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(15 53 22)"/>
+      <ellipse cx="40" cy="14" rx="10" ry="13" fill="#a8cc6a"/>
+    </svg>
+    <span class="nav-name">Tree <span>Solutions</span> Ltd</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li>
+    <li><a href="why-us.html">Why Us</a></li><li><a href="testimonials.html" class="active">Reviews</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="contact.html">Free Quote</a>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a><a href="about.html" onclick="toggleMenu()">About Us</a>
+  <a href="services.html" onclick="toggleMenu()">Services</a><a href="why-us.html" onclick="toggleMenu()">Why Us</a>
+  <a href="testimonials.html" onclick="toggleMenu()">Reviews</a><a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:rgba(255,255,255,.7)">Reviews</span></div>
+  <span class="eyebrow">What Our Clients Say</span>
+  <h1>500+ Happy Customers</h1>
+  <p>Real stories from real people who trusted us with their trees. We think the results speak for themselves.</p>
+</div>
+
+<div class="rating-bar">
+  <div class="rating-inner">
+    <div class="rating-big">
+      <div class="rating-num">5.0</div>
+      <div class="rating-stars">★★★★★</div>
+      <div class="rating-sub">Based on 500+ reviews</div>
+    </div>
+    <div class="rating-breakdown">
+      <div class="rating-row"><span>5★</span><div class="rating-bar-outer"><div class="rating-bar-inner" style="width:96%"></div></div><span class="rating-count">481</span></div>
+      <div class="rating-row"><span>4★</span><div class="rating-bar-outer"><div class="rating-bar-inner" style="width:4%"></div></div><span class="rating-count">19</span></div>
+      <div class="rating-row"><span>3★</span><div class="rating-bar-outer"><div class="rating-bar-inner" style="width:0%"></div></div><span class="rating-count">0</span></div>
+      <div class="rating-row"><span>2★</span><div class="rating-bar-outer"><div class="rating-bar-inner" style="width:0%"></div></div><span class="rating-count">0</span></div>
+      <div class="rating-row"><span>1★</span><div class="rating-bar-outer"><div class="rating-bar-inner" style="width:0%"></div></div><span class="rating-count">0</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="reviews">
+  <div class="reviews-header">
+    <div class="section-label">Client Testimonials</div>
+    <h2 class="section-title">What People Are Saying</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Tree Pruning</div><p class="review-text">"The team arrived on time, worked quietly and professionally, and left the garden spotless. The old oak looks incredible — years of neglect reversed in a single day."</p><div class="review-author"><div class="review-avatar">SM</div><div><div class="review-name">Sarah M.</div><div class="review-loc">Homeowner · Croydon</div></div></div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Emergency Service</div><p class="review-text">"We called on a Sunday after a storm brought a large branch down. They were with us within two hours. Absolute lifesavers — and very fairly priced too."</p><div class="review-author"><div class="review-avatar">JT</div><div><div class="review-name">James T.</div><div class="review-loc">Property Manager · Surrey</div></div></div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Tree Survey</div><p class="review-text">"Commissioned a full BS 5837 tree survey for a planning application. The report was thorough and was accepted by the council without any queries. Excellent."</p><div class="review-author"><div class="review-avatar">AK</div><div><div class="review-name">Amara K.</div><div class="review-loc">Architect · Bristol</div></div></div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Tree Removal</div><p class="review-text">"Had a very large dead elm very close to the house. I was nervous, but the crew were completely reassuring and removed it safely without a scratch on the property."</p><div class="review-author"><div class="review-avatar">PH</div><div><div class="review-name">Peter H.</div><div class="review-loc">Homeowner · Kent</div></div></div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Tree Health</div><p class="review-text">"My cherry tree was looking very sick. The arborist diagnosed the problem immediately and put together a treatment plan. Six months later it's absolutely thriving."</p><div class="review-author"><div class="review-avatar">LB</div><div><div class="review-name">Linda B.</div><div class="review-loc">Garden Owner · Sussex</div></div></div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-service">Tree Planting</div><p class="review-text">"They helped us choose and plant six new trees for our garden. The advice on species selection was brilliant — I never would have chosen those varieties on my own."</p><div class="review-author"><div class="review-avatar">RN</div><div><div class="review-name">Rachel N.</div><div class="review-loc">Homeowner · Berkshire</div></div></div></div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="featured-inner">
+    <div class="featured-stars">★★★★★</div>
+    <p class="featured-quote">"I've used Tree Solutions Ltd three times now across two different properties. Every single time the standard of work, communication, and professionalism has been outstanding. They're the only tree company I would ever recommend."</p>
+    <div class="featured-author-name">David Okafor</div>
+    <div class="featured-author-role">Estate Manager · London Borough of Lambeth</div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>Ready to become our next happy client?</h2>
+  <p>Get a free quote today and experience the Tree Solutions difference.</p>
+  <a href="contact.html" class="btn-white">Request a Free Quote</a>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><div class="footer-name">Tree <span>Solutions</span> Ltd</div><p>Professional tree care and arborist services across London and the South East.</p></div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="why-us.html">Why Us</a></li><li><a href="testimonials.html">Reviews</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Tree Pruning</a></li><li><a href="services.html">Tree Removal</a></li><li><a href="services.html">Tree Health</a></li><li><a href="services.html">Emergency</a></li><li><a href="services.html">Tree Surveys</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+441234567890">+44 1234 567 890</a></li><li><a href="mailto:info@treesolutionsltd.co.uk">info@treesolutionsltd.co.uk</a></li><li><a href="#">London &amp; South East</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Tree Solutions Ltd. All rights reserved.</p><p style="color:rgba(255,255,255,.25);font-size:.75rem;">Certified Arborists | Fully Insured</p></div>
+</footer>
+<script>function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}</script>
+</body>
+</html>

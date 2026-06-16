@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us – Tree Solutions Ltd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --forest:#1a3a1a;--leaf:#4a7c3f;--sage:#6ea85a;--lime:#a8cc6a;--cream:#f7f4ee;--bark:#2d2417;--white:#fff;--text:#1e1e1e;--muted:#5a5a5a; }
+    body { font-family:'Inter',sans-serif; color:var(--text); background:var(--white); }
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 5vw; height:72px; background:rgba(26,58,26,0.97); backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,0.08); }
+    .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo { width:38px; height:38px; }
+    .nav-name { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#fff; }
+    .nav-name span { color:var(--lime); }
+    .nav-links { display:flex; gap:0; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.82); text-decoration:none; font-size:.88rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; transition:color .2s; padding:.4rem .9rem; border-radius:6px; }
+    .nav-links a:hover, .nav-links a.active { color:var(--lime); }
+    .nav-cta { background:var(--sage); color:#fff; padding:.55rem 1.4rem; border-radius:30px; font-weight:600; font-size:.88rem; text-decoration:none; transition:background .2s; }
+    .nav-cta:hover { background:var(--lime); color:var(--forest); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:#fff; border-radius:2px; }
+    .mobile-menu { display:none; position:fixed; inset:72px 0 0 0; background:var(--forest); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { color:#fff; text-decoration:none; font-size:1.3rem; font-family:'Playfair Display',serif; }
+    .mobile-menu a:hover { color:var(--lime); }
+
+    .page-hero { background:linear-gradient(135deg,var(--forest) 0%,#264d26 100%); padding:140px 5vw 80px; text-align:center; }
+    .page-hero .eyebrow { font-size:.75rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--lime); margin-bottom:.75rem; display:block; }
+    .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,4rem); font-weight:900; color:#fff; margin-bottom:1rem; }
+    .page-hero p { color:rgba(255,255,255,.7); font-size:1.05rem; max-width:520px; margin:0 auto; line-height:1.75; }
+    .breadcrumb { display:flex; justify-content:center; gap:.5rem; margin-bottom:1.5rem; font-size:.8rem; }
+    .breadcrumb a { color:rgba(255,255,255,.5); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--lime); }
+    .breadcrumb span { color:rgba(255,255,255,.3); }
+
+    section { padding:80px 5vw; }
+    .section-label { font-size:.75rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); margin-bottom:.6rem; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.8rem); font-weight:700; color:var(--forest); margin-bottom:1rem; line-height:1.2; }
+
+    /* Story */
+    .story { background:var(--cream); }
+    .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:5vw; align-items:center; }
+    .story-visual { display:flex; align-items:center; justify-content:center; }
+    .story-circle { width:100%; max-width:400px; aspect-ratio:1; border-radius:50%; background:linear-gradient(135deg,var(--forest),var(--leaf)); display:flex; align-items:center; justify-content:center; position:relative; }
+    .story-circle svg { width:65%; height:65%; }
+    .badge { position:absolute; bottom:10%; right:0; background:#fff; border-radius:16px; padding:.9rem 1.2rem; box-shadow:0 8px 32px rgba(0,0,0,.12); display:flex; align-items:center; gap:.8rem; }
+    .badge-icon { font-size:1.8rem; }
+    .badge-text strong { display:block; font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--forest); }
+    .badge-text span { font-size:.78rem; color:var(--muted); }
+    .story-text p { color:var(--muted); line-height:1.8; margin-bottom:1.2rem; font-size:.97rem; }
+    .story-text p strong { color:var(--forest); }
+
+    /* Values */
+    .values { background:#fff; }
+    .values-header { text-align:center; margin-bottom:3.5rem; }
+    .values-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; }
+    .value-card { background:var(--cream); border-radius:20px; padding:2rem; border-left:4px solid var(--sage); }
+    .value-icon { font-size:2.2rem; margin-bottom:1rem; display:block; }
+    .value-title { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--forest); font-weight:700; margin-bottom:.6rem; }
+    .value-desc { font-size:.9rem; color:var(--muted); line-height:1.65; }
+
+    /* Team */
+    .team { background:var(--cream); }
+    .team-header { text-align:center; margin-bottom:3.5rem; }
+    .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+    .team-card { background:#fff; border-radius:20px; padding:2rem; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,.06); transition:transform .25s; }
+    .team-card:hover { transform:translateY(-4px); }
+    .team-avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--forest),var(--leaf)); color:#fff; font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; }
+    .team-name { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--forest); font-weight:700; margin-bottom:.25rem; }
+    .team-role { font-size:.82rem; color:var(--sage); font-weight:600; letter-spacing:.04em; text-transform:uppercase; margin-bottom:.75rem; }
+    .team-bio { font-size:.88rem; color:var(--muted); line-height:1.6; }
+
+    /* Timeline */
+    .timeline-section { background:#fff; }
+    .timeline { position:relative; max-width:700px; margin:0 auto; }
+    .timeline::before { content:''; position:absolute; left:24px; top:0; bottom:0; width:2px; background:var(--sage); }
+    .timeline-item { display:flex; gap:2rem; padding:0 0 2.5rem 0; position:relative; }
+    .timeline-dot { width:50px; height:50px; border-radius:50%; background:var(--forest); color:var(--lime); font-family:'Playfair Display',serif; font-weight:900; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; z-index:1; }
+    .timeline-content { padding-top:.6rem; }
+    .timeline-year { font-size:.78rem; font-weight:700; color:var(--sage); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.3rem; }
+    .timeline-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--forest); margin-bottom:.4rem; }
+    .timeline-desc { font-size:.9rem; color:var(--muted); line-height:1.65; }
+
+    /* CTA */
+    .cta-strip { background:linear-gradient(135deg,var(--leaf) 0%,var(--forest) 100%); padding:80px 5vw; text-align:center; }
+    .cta-strip h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.6rem); color:#fff; margin-bottom:1rem; }
+    .cta-strip p { color:rgba(255,255,255,.75); margin-bottom:2rem; max-width:460px; margin-left:auto; margin-right:auto; }
+    .btn-white { background:#fff; color:var(--forest); padding:.85rem 2rem; border-radius:40px; font-weight:700; text-decoration:none; display:inline-block; transition:background .2s; }
+    .btn-white:hover { background:var(--lime); }
+
+    footer { background:var(--bark); padding:50px 5vw 24px; }
+    .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:2.5rem; }
+    .footer-brand p { color:rgba(255,255,255,.5); font-size:.88rem; line-height:1.7; max-width:240px; margin-top:.6rem; }
+    .footer-col h4 { font-family:'Playfair Display',serif; color:var(--lime); font-size:.95rem; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.5rem; }
+    .footer-col ul li a { color:rgba(255,255,255,.5); text-decoration:none; font-size:.87rem; transition:color .2s; }
+    .footer-col ul li a:hover { color:var(--lime); }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.08); padding-top:1.2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+    .footer-bottom p { color:rgba(255,255,255,.3); font-size:.8rem; }
+    .footer-name { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:.5rem; }
+    .footer-name span { color:var(--lime); }
+
+    @media(max-width:900px){ .nav-links,.nav-cta{display:none;} .hamburger{display:flex;} .story-grid{grid-template-columns:1fr;} .footer-top{grid-template-columns:1fr 1fr;} }
+    @media(max-width:560px){ .footer-top{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-logo" viewBox="0 0 80 80" fill="none">
+      <path d="M40 70 Q40 55 40 45" stroke="#a8cc6a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M40 45 Q25 40 18 28 Q30 28 40 38 Q50 28 62 28 Q55 40 40 45Z" fill="#4a7c3f"/>
+      <ellipse cx="27" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(-15 27 22)"/>
+      <ellipse cx="53" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(15 53 22)"/>
+      <ellipse cx="40" cy="14" rx="10" ry="13" fill="#a8cc6a"/>
+    </svg>
+    <span class="nav-name">Tree <span>Solutions</span> Ltd</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="why-us.html">Why Us</a></li>
+    <li><a href="testimonials.html">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="contact.html">Free Quote</a>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About Us</a>
+  <a href="services.html" onclick="toggleMenu()">Services</a>
+  <a href="why-us.html" onclick="toggleMenu()">Why Us</a>
+  <a href="testimonials.html" onclick="toggleMenu()">Reviews</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="#">About Us</a></div>
+  <span class="eyebrow">Our Story</span>
+  <h1>Passionate About Trees Since 2009</h1>
+  <p>We're a team of certified arborists who believe every tree tells a story worth protecting. Here's ours.</p>
+</div>
+
+<section class="story">
+  <div class="story-grid">
+    <div class="story-visual">
+      <div class="story-circle">
+        <svg viewBox="0 0 200 220" fill="none">
+          <path d="M100 210 Q100 150 100 130" stroke="#a8cc6a" stroke-width="9" stroke-linecap="round"/>
+          <path d="M100 210 L75 230 M100 210 L125 230" stroke="#6ea85a" stroke-width="5" stroke-linecap="round"/>
+          <path d="M100 130 Q68 115 48 82 Q78 82 100 110 Q122 82 152 82 Q132 115 100 130Z" fill="#4a7c3f"/>
+          <ellipse cx="62" cy="58" rx="30" ry="40" fill="#6ea85a" transform="rotate(-12 62 58)"/>
+          <ellipse cx="138" cy="58" rx="30" ry="40" fill="#6ea85a" transform="rotate(12 138 58)"/>
+          <ellipse cx="100" cy="40" rx="32" ry="42" fill="#a8cc6a"/>
+          <ellipse cx="78" cy="24" rx="9" ry="13" fill="#6ea85a" transform="rotate(-25 78 24)"/>
+          <ellipse cx="122" cy="24" rx="9" ry="13" fill="#6ea85a" transform="rotate(25 122 24)"/>
+          <ellipse cx="100" cy="14" rx="8" ry="12" fill="#4a7c3f"/>
+        </svg>
+        <div class="badge">
+          <div class="badge-icon">🏅</div>
+          <div class="badge-text"><strong>ISA Certified</strong><span>Arborist Team</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="story-text">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">Tree Care Is Not Just Our Job — It's Our Calling</h2>
+      <p>Tree Solutions Ltd was founded in 2009 by <strong>Marcus Green</strong>, a passionate arborist with over two decades of hands-on experience. What started as a one-man operation with a single van has grown into a trusted team of 12 certified professionals serving hundreds of clients across London and the South East.</p>
+      <p>We believe trees are living monuments — they clean the air, shelter wildlife, and shape the character of every neighbourhood. Our mission is to care for them with the knowledge, respect, and precision they deserve.</p>
+      <p>Every job we take on — whether it's a single garden tree or a large estate — receives the same attention to detail, the same commitment to safety, and the same genuine passion for what we do.</p>
+    </div>
+  </div>
+</section>
+
+<section class="values">
+  <div class="values-header">
+    <div class="section-label">What Drives Us</div>
+    <h2 class="section-title">Our Core Values</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <span class="value-icon">🌿</span>
+      <div class="value-title">Environmental Responsibility</div>
+      <div class="value-desc">We recycle 100% of green waste — chipping into mulch, milling timber, and composting. We plant a tree for every significant removal.</div>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🛡️</span>
+      <div class="value-title">Safety Above All</div>
+      <div class="value-desc">Every team member holds up-to-date safety certifications. We follow strict protocols and carry full public liability and employer's insurance.</div>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🤝</span>
+      <div class="value-title">Honest &amp; Transparent</div>
+      <div class="value-desc">No hidden costs. No upselling work that isn't needed. We give clear, honest assessments and stick to the price we quote.</div>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🎓</span>
+      <div class="value-title">Continuous Learning</div>
+      <div class="value-desc">The world of arboriculture evolves. Our team undergoes regular training and CPD to stay at the forefront of best practice.</div>
+    </div>
+  </div>
+</section>
+
+<section class="team">
+  <div class="team-header">
+    <div class="section-label">The People Behind the Work</div>
+    <h2 class="section-title">Meet Our Team</h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">MG</div>
+      <div class="team-name">Marcus Green</div>
+      <div class="team-role">Founder &amp; Lead Arborist</div>
+      <div class="team-bio">ISA Certified Arborist with 20+ years' experience. Marcus leads every major project and sets the standard for quality across the company.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">SP</div>
+      <div class="team-name">Sarah Parker</div>
+      <div class="team-role">Senior Arborist</div>
+      <div class="team-bio">Specialist in tree health diagnosis and treatment programmes. Sarah holds a BSc in Arboriculture from Merrist Wood College.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">JR</div>
+      <div class="team-name">James Reid</div>
+      <div class="team-role">Tree Surgeon</div>
+      <div class="team-bio">Expert climber and chainsaw operator with 10 years' field experience. James handles our most complex removals with precision and care.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AO</div>
+      <div class="team-name">Amara Osei</div>
+      <div class="team-role">Surveys &amp; Reports</div>
+      <div class="team-bio">Specialist in BS 5837 tree surveys, planning applications, and detailed condition reports for residential and commercial clients.</div>
+    </div>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="section-label" style="text-align:center;">Our Journey</div>
+  <h2 class="section-title" style="text-align:center;margin-bottom:3rem;">How We Grew</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot">09</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2009</div>
+        <div class="timeline-title">Founded in South London</div>
+        <div class="timeline-desc">Marcus Green starts Tree Solutions Ltd with a single van, serving residential clients in Croydon and surrounding areas.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">12</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2012</div>
+        <div class="timeline-title">First Commercial Contracts</div>
+        <div class="timeline-desc">Secured our first commercial accounts with local councils and housing associations, expanding the team to five.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">16</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2016</div>
+        <div class="timeline-title">ISA Certification for Full Team</div>
+        <div class="timeline-desc">Every team member achieved ISA Certified Arborist status — a milestone that set us apart in the industry.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">20</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-title">Launched Survey Division</div>
+        <div class="timeline-desc">Added a dedicated surveys and reports division to serve architects, developers, and planning departments.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">25</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-title">2,000+ Trees Cared For</div>
+        <div class="timeline-desc">We celebrate over 2,000 trees cared for and counting — with a 100% satisfaction record and a growing team of 12.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>Want to work with us?</h2>
+  <p>Get in touch for a free, no-obligation quote from our certified team.</p>
+  <a href="contact.html" class="btn-white">Request a Free Quote</a>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-name">Tree <span>Solutions</span> Ltd</div>
+      <p>Professional tree care and arborist services across London and the South East.</p>
+    </div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="why-us.html">Why Us</a></li><li><a href="testimonials.html">Reviews</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Tree Pruning</a></li><li><a href="services.html">Tree Removal</a></li><li><a href="services.html">Tree Health</a></li><li><a href="services.html">Emergency</a></li><li><a href="services.html">Tree Surveys</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+441234567890">+44 1234 567 890</a></li><li><a href="mailto:info@treesolutionsltd.co.uk">info@treesolutionsltd.co.uk</a></li><li><a href="#">London &amp; South East</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Tree Solutions Ltd. All rights reserved.</p><p style="color:rgba(255,255,255,.25);font-size:.75rem;">Certified Arborists | Fully Insured</p></div>
+</footer>
+<script>function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}</script>
+</body>
+</html>

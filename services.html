@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services – Tree Solutions Ltd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--forest:#1a3a1a;--leaf:#4a7c3f;--sage:#6ea85a;--lime:#a8cc6a;--cream:#f7f4ee;--bark:#2d2417;--white:#fff;--text:#1e1e1e;--muted:#5a5a5a;}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:72px;background:rgba(26,58,26,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.08);}
+    .nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo{width:38px;height:38px;}
+    .nav-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;}
+    .nav-name span{color:var(--lime);}
+    .nav-links{display:flex;gap:0;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.82);text-decoration:none;font-size:.88rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;padding:.4rem .9rem;border-radius:6px;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);}
+    .nav-cta{background:var(--sage);color:#fff;padding:.55rem 1.4rem;border-radius:30px;font-weight:600;font-size:.88rem;text-decoration:none;transition:background .2s;}
+    .nav-cta:hover{background:var(--lime);color:var(--forest);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+    .hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;}
+    .mobile-menu{display:none;position:fixed;inset:72px 0 0 0;background:var(--forest);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{color:#fff;text-decoration:none;font-size:1.3rem;font-family:'Playfair Display',serif;}
+    .mobile-menu a:hover{color:var(--lime);}
+    .page-hero{background:linear-gradient(135deg,var(--forest) 0%,#264d26 100%);padding:140px 5vw 80px;text-align:center;}
+    .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);margin-bottom:.75rem;display:block;}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:#fff;margin-bottom:1rem;}
+    .page-hero p{color:rgba(255,255,255,.7);font-size:1.05rem;max-width:520px;margin:0 auto;line-height:1.75;}
+    .breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.8rem;}
+    .breadcrumb a{color:rgba(255,255,255,.5);text-decoration:none;}
+    .breadcrumb span{color:rgba(255,255,255,.3);}
+    .section-label{font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:.6rem;}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;color:var(--forest);margin-bottom:1rem;line-height:1.2;}
+
+    .services-main{padding:80px 5vw;background:var(--cream);}
+    .services-intro{text-align:center;margin-bottom:4rem;}
+    .services-intro .section-title{margin-bottom:.75rem;}
+    .services-intro p{color:var(--muted);max-width:540px;margin:0 auto;font-size:1rem;line-height:1.75;}
+    .service-block{display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center;background:#fff;border-radius:24px;padding:3rem;margin-bottom:1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.05);transition:box-shadow .25s;}
+    .service-block:hover{box-shadow:0 8px 36px rgba(0,0,0,.1);}
+    .service-block.reverse{direction:rtl;}
+    .service-block.reverse>*{direction:ltr;}
+    .service-icon-big{font-size:5rem;text-align:center;padding:2rem;}
+    .service-tag{display:inline-block;background:var(--cream);color:var(--sage);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border-radius:20px;margin-bottom:.75rem;}
+    .service-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--forest);margin-bottom:.75rem;}
+    .service-desc{color:var(--muted);line-height:1.8;font-size:.97rem;margin-bottom:1.2rem;}
+    .service-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+    .service-list li{display:flex;align-items:center;gap:.6rem;font-size:.9rem;color:var(--text);}
+    .service-list li::before{content:'✓';color:var(--sage);font-weight:700;}
+    .service-cta{display:inline-block;margin-top:1.2rem;background:var(--forest);color:#fff;padding:.7rem 1.6rem;border-radius:30px;font-size:.88rem;font-weight:600;text-decoration:none;transition:background .2s;}
+    .service-cta:hover{background:var(--leaf);}
+
+    .emergency{background:var(--forest);padding:80px 5vw;text-align:center;}
+    .emergency h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:#fff;margin-bottom:1rem;}
+    .emergency p{color:rgba(255,255,255,.7);max-width:480px;margin:0 auto 2rem;}
+    .emergency .phone{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--lime);margin-bottom:1.5rem;display:block;}
+    .btn-lime{background:var(--lime);color:var(--forest);padding:.85rem 2rem;border-radius:40px;font-weight:700;text-decoration:none;display:inline-block;transition:background .2s;}
+    .btn-lime:hover{background:#c0e080;}
+
+    .cta-strip{background:linear-gradient(135deg,var(--leaf) 0%,var(--forest) 100%);padding:80px 5vw;text-align:center;}
+    .cta-strip h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:#fff;margin-bottom:1rem;}
+    .cta-strip p{color:rgba(255,255,255,.75);margin-bottom:2rem;max-width:460px;margin-left:auto;margin-right:auto;}
+    .btn-white{background:#fff;color:var(--forest);padding:.85rem 2rem;border-radius:40px;font-weight:700;text-decoration:none;display:inline-block;transition:background .2s;}
+    .btn-white:hover{background:var(--lime);}
+    footer{background:var(--bark);padding:50px 5vw 24px;}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem;}
+    .footer-brand p{color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;max-width:240px;margin-top:.6rem;}
+    .footer-col h4{font-family:'Playfair Display',serif;color:var(--lime);font-size:.95rem;margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+    .footer-col ul li a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.87rem;transition:color .2s;}
+    .footer-col ul li a:hover{color:var(--lime);}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .footer-bottom p{color:rgba(255,255,255,.3);font-size:.8rem;}
+    .footer-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+    .footer-name span{color:var(--lime);}
+    @media(max-width:900px){.nav-links,.nav-cta{display:none;}.hamburger{display:flex;}.service-block,.service-block.reverse{grid-template-columns:1fr;direction:ltr;}.footer-top{grid-template-columns:1fr 1fr;}}
+    @media(max-width:560px){.footer-top{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-logo" viewBox="0 0 80 80" fill="none">
+      <path d="M40 70 Q40 55 40 45" stroke="#a8cc6a" stroke-width="5" stroke-linecap="round"/>
+      <path d="M40 45 Q25 40 18 28 Q30 28 40 38 Q50 28 62 28 Q55 40 40 45Z" fill="#4a7c3f"/>
+      <ellipse cx="27" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(-15 27 22)"/>
+      <ellipse cx="53" cy="22" rx="10" ry="14" fill="#6ea85a" transform="rotate(15 53 22)"/>
+      <ellipse cx="40" cy="14" rx="10" ry="13" fill="#a8cc6a"/>
+    </svg>
+    <span class="nav-name">Tree <span>Solutions</span> Ltd</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="why-us.html">Why Us</a></li>
+    <li><a href="testimonials.html">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="contact.html">Free Quote</a>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About Us</a>
+  <a href="services.html" onclick="toggleMenu()">Services</a>
+  <a href="why-us.html" onclick="toggleMenu()">Why Us</a>
+  <a href="testimonials.html" onclick="toggleMenu()">Reviews</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:rgba(255,255,255,.7)">Services</span></div>
+  <span class="eyebrow">What We Offer</span>
+  <h1>Our Services</h1>
+  <p>Comprehensive tree care for residential, commercial, and municipal clients — delivered by certified arborists.</p>
+</div>
+
+<section class="services-main">
+  <div class="services-intro">
+    <div class="section-label">Full Range of Tree Care</div>
+    <h2 class="section-title">Everything Your Trees Need</h2>
+    <p>From a single garden tree to a large estate, we offer the full spectrum of professional arboricultural services.</p>
+  </div>
+
+  <div class="service-block">
+    <div class="service-icon-big">✂️</div>
+    <div>
+      <span class="service-tag">Most Popular</span>
+      <div class="service-title">Tree Pruning &amp; Trimming</div>
+      <p class="service-desc">Expert shaping, thinning, and dead-wooding to improve your tree's structure, promote healthy growth, and enhance visual appeal. We follow best practice BS 3998 guidelines on all pruning work.</p>
+      <ul class="service-list">
+        <li>Crown reduction &amp; thinning</li>
+        <li>Deadwooding &amp; hazard removal</li>
+        <li>Formative pruning for young trees</li>
+        <li>Hedge trimming &amp; shaping</li>
+      </ul>
+      <a href="contact.html" class="service-cta">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="service-block reverse">
+    <div class="service-icon-big">🪵</div>
+    <div>
+      <span class="service-tag">Tree Removal</span>
+      <div class="service-title">Safe Tree Removal</div>
+      <p class="service-desc">When removal is the only option — due to disease, death, storm damage, or proximity to structures — our team carries it out safely, efficiently, and with minimal disruption.</p>
+      <ul class="service-list">
+        <li>Full tree dismantling in sections</li>
+        <li>Stump grinding &amp; root removal</li>
+        <li>Site clearance &amp; cleanup</li>
+        <li>Timber milling &amp; green waste recycling</li>
+      </ul>
+      <a href="contact.html" class="service-cta">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="service-block">
+    <div class="service-icon-big">🌿</div>
+    <div>
+      <span class="service-tag">Tree Health</span>
+      <div class="service-title">Tree Health &amp; Treatment</div>
+      <p class="service-desc">Trees face many threats — from fungal disease to insect pests to soil compaction. Our arborists diagnose problems early and develop bespoke treatment programmes to restore vitality.</p>
+      <ul class="service-list">
+        <li>Disease diagnosis &amp; treatment</li>
+        <li>Pest management programmes</li>
+        <li>Soil enrichment &amp; aeration</li>
+        <li>Fertilisation &amp; nutrition plans</li>
+      </ul>
+      <a href="contact.html" class="service-cta">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="service-block reverse">
+    <div class="service-icon-big">🌳</div>
+    <div>
+      <span class="service-tag">Planting</span>
+      <div class="service-title">Tree Planting &amp; Aftercare</div>
+      <p class="service-desc">The right tree in the right place makes all the difference. We advise on species selection based on your soil, climate, space, and goals — then plant and maintain to give every tree the best start.</p>
+      <ul class="service-list">
+        <li>Species selection consultation</li>
+        <li>Professional planting &amp; staking</li>
+        <li>Mulching &amp; establishment watering</li>
+        <li>Ongoing aftercare programmes</li>
+      </ul>
+      <a href="contact.html" class="service-cta">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="service-block">
+    <div class="service-icon-big">📋</div>
+    <div>
+      <span class="service-tag">Surveys</span>
+      <div class="service-title">Tree Surveys &amp; Reports</div>
+      <p class="service-desc">Professional BS 5837 surveys and detailed condition reports for planning applications, property purchases, insurance claims, and legal disputes. Trusted by architects, developers, and local authorities.</p>
+      <ul class="service-list">
+        <li>BS 5837 planning surveys</li>
+        <li>Tree condition reports</li>
+        <li>Risk assessments</li>
+        <li>Expert witness statements</li>
+      </ul>
+      <a href="contact.html" class="service-cta">Get a Quote →</a>
+    </div>
+  </div>
+</section>
+
+<div class="emergency">
+  <span class="eyebrow">24/7 Service</span>
+  <h2>Emergency Tree Services</h2>
+  <p>Storm damage, fallen trees, dangerous limbs — we respond fast, any time of day or night.</p>
+  <span class="phone">+44 1234 567 890</span>
+  <br/>
+  <a href="contact.html" class="btn-lime">Call Us Now</a>
+</div>
+
+<div class="cta-strip">
+  <h2>Not sure what you need?</h2>
+  <p>Get in touch and one of our arborists will assess your trees and advise the best course of action — free of charge.</p>
+  <a href="contact.html" class="btn-white">Book a Free Assessment</a>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><div class="footer-name">Tree <span>Solutions</span> Ltd</div><p>Professional tree care and arborist services across London and the South East.</p></div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="why-us.html">Why Us</a></li><li><a href="testimonials.html">Reviews</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Tree Pruning</a></li><li><a href="services.html">Tree Removal</a></li><li><a href="services.html">Tree Health</a></li><li><a href="services.html">Emergency</a></li><li><a href="services.html">Tree Surveys</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+441234567890">+44 1234 567 890</a></li><li><a href="mailto:info@treesolutionsltd.co.uk">info@treesolutionsltd.co.uk</a></li><li><a href="#">London &amp; South East</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Tree Solutions Ltd. All rights reserved.</p><p style="color:rgba(255,255,255,.25);font-size:.75rem;">Certified Arborists | Fully Insured</p></div>
+</footer>
+<script>function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}</script>
+</body>
+</html>
